@@ -3,23 +3,18 @@
 defmodule Guess do
   def middle(min, max), do: div(min + max, 2)
 
-  def number(actual, first..last) do
-    number(actual, middle(first, last), first..last)
+  def number(actual, first..last) when actual < div(first + last, 2) do
+    IO.puts("Is it #{middle(first, last)}")
+    number(actual, first..middle(first, last))
   end
 
-  def number(actual, guess, _) when actual == guess do
-    IO.puts "Is it #{guess}"
-    actual
+  def number(actual, first..last) when actual > div(first + last, 2) do
+    IO.puts("Is it #{middle(first, last)}")
+    number(actual, middle(first, last)..last)
   end
 
-  def number(actual, guess, first..last) when actual < guess do
-    IO.puts "Is it #{guess}"
-    number(actual, middle(first, last), first..guess)
-  end
-
-  def number(actual, guess, first..last) when actual > guess do
-    IO.puts "Is it #{guess}"
-    number(actual, middle(first, last), guess..last)
+  def number(_, first..last) do
+    IO.puts(middle(first, last))
   end
 end
 
